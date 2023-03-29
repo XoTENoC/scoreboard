@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>Scoreboard</title>
+		<style>
+			@font-face {
+				font-family: minecraft;
+				src: url('/fonts/Minecraft.ttf');
+			}
+
+			body {
+				background-image: url("/imgs/background.svg");
+				background-position: center;
+				background-repeat: no-repeat;
+				background-size: cover;
+				margin: 0;
+				padding: 0;
+			}
+
+			.container {
+				display: flex;
+				flex-direction: column;
+				margin: 0 auto;
+				width: 802px;
+			}
+
+			.row {
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+				width: 802px;
+			}
+
+			.row .col {
+				width: auto;
+			}
+
+			.row .col span {
+				font-size: 100px;
+				font-family: 'minecraft';
+				color: #fff;
+				text-shadow: 5px 5px 0px rgb(0 0 0 / 0.5);
+			}
+
+			.row .col img {
+				height: 200px;
+			}
+
+			.logo {
+				margin-bottom: 20px;
+			}
+
+			.logo img {
+				height: 250px;
+				margin: 0 auto;
+				margin-top: 30px;
+			}
+
+			.spacer {
+				height: 50px;
+			}
+
+			canvas {
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: -1;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="stars">
+			<div class="container">
+				<div class="row logo">
+					<img src="/imgs/Logo.svg">
+				</div>
+				<div class="spacer"></div>
+				<div class="row">
+					<div class="col"><img src="/imgs/storm.svg"></div>
+					<div class="col"><span id="team1-score"><%= scores.team1 %></span></div>
+				</div>
+				<div class="row">
+					<div class="col"><span id="team2-score"><%= scores.team2 %></span></div>
+					<div class="col"><img src="/imgs/bolts.svg"></div>
+				</div>
+				<div class="row">
+					<div class="col"><img src="/imgs/flames.svg"></div>
+					<div class="col"><span id="team3-score"><%= scores.team3 %></span></div>
+				</div>
+			</div>
+		</div>
+		<script src="/socket.io/socket.io.js"></script>
+		<script>
+			const socket = io();
+			socket.on('score-update', scores => {
+				document.getElementById('team1-score').textContent = scores.team1;
+				document.getElementById('team2-score').textContent = scores.team2;
+				document.getElementById('team3-score').textContent = scores.team3;
+			});
+		</script>
+	</body>
+
+</html>
