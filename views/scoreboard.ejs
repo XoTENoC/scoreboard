@@ -2,104 +2,89 @@
 <html>
 
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<title>Scoreboard</title>
+		<link href="http://cdn.staticfile.org/emoji/0.2.2/emoji.css" rel="stylesheet" type="text/css" />
+		<script src="http://cdn.staticfile.org/jquery/2.1.0/jquery.min.js"></script>
+		<script src="http://cdn.staticfile.org/emoji/0.2.2/emoji.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+		<link rel="stylesheet" href="/css/main.css">
 		<style>
-			@font-face {
-				font-family: minecraft;
-				src: url('/fonts/Minecraft.ttf');
-			}
 
-			body {
-				background-image: url("/imgs/background.svg");
-				background-position: center;
-				background-repeat: no-repeat;
-				background-size: cover;
-				margin: 0;
-				padding: 0;
-			}
-
-			.container {
-				display: flex;
-				flex-direction: column;
-				margin: 0 auto;
-				width: 802px;
-			}
-
-			.row {
-				display: flex;
-				flex-direction: row;
-				justify-content: space-between;
-				align-items: center;
-				width: 802px;
-			}
-
-			.row .col {
-				width: auto;
-			}
-
-			.row .col span {
-				font-size: 100px;
-				font-family: 'minecraft';
-				color: #fff;
-				text-shadow: 5px 5px 0px rgb(0 0 0 / 0.5);
-			}
-
-			.row .col img {
-				height: 200px;
-			}
-
-			.logo {
-				margin-bottom: 20px;
-			}
-
-			.logo img {
-				height: 250px;
-				margin: 0 auto;
-				margin-top: 30px;
-			}
-
-			.spacer {
-				height: 50px;
-			}
-
-			canvas {
-				position: absolute;
-				top: 0;
-				left: 0;
-				z-index: -1;
-			}
 		</style>
 	</head>
 
 	<body>
-		<div class="stars">
-			<div class="container">
-				<div class="row logo">
-					<img src="/imgs/Logo.svg">
-				</div>
-				<div class="spacer"></div>
-				<div class="row">
-					<div class="col"><img src="/imgs/storm.svg"></div>
-					<div class="col"><span id="team1-score"><%= scores.team1 %></span></div>
-				</div>
-				<div class="row">
-					<div class="col"><span id="team2-score"><%= scores.team2 %></span></div>
-					<div class="col"><img src="/imgs/bolts.svg"></div>
-				</div>
-				<div class="row">
-					<div class="col"><img src="/imgs/flames.svg"></div>
-					<div class="col"><span id="team3-score"><%= scores.team3 %></span></div>
-				</div>
+		<div class="header-image">
+			<div class="container h-100 d-flex flex-column">
+				<p class="text-white m-0 mt-auto">Winter Camp</p>
+				<h1 class="text-white">Leaderboard</h1>
 			</div>
+		</div>
+		<div class="container mb-4" id="scoreboard">
+			{{cards}}
 		</div>
 		<script src="/socket.io/socket.io.js"></script>
 		<script>
+			const teams = [
+				{ id: 'team1', name: 'Italy 🇮🇹' },
+				{ id: 'team2', name: 'New Zealand 🇳🇿' },
+				{ id: 'team3', name: 'Argentina 🇦🇷' },
+				{ id: 'team4', name: 'Brazil 🇧🇷' },
+				{ id: 'team5', name: 'Malaysia 🇲🇾' },
+				{ id: 'team6', name: 'India 🇮🇳' },
+				{ id: 'team7', name: 'Japan 🇯🇵' },
+				{ id: 'team8', name: 'South Africa 🇿🇦' }
+			];
+
+			function generateCards(scores) {
+				let cards = '';
+
+				const teamScores = teams.map(team => ({ team: team.id, score: scores[team.id] }));
+				teamScores.sort((a, b) => b.score - a.score);
+
+				teamScores.forEach((team, index) => {
+					const position = index < 3 ? ['🥇', '🥈', '🥉'][index] : `${index + 1}.`;
+					const card = `
+						<div class="card mt-2" data-team="${team.team}">
+							<div class="card-body d-flex flex-row justify-content-between">
+								<div class="d-flex flex-row">
+									<p class="mb-0">${position}</p>
+									<p class="mb-0 ms-2">${teams.find(t => t.id === team.team).name}</p>
+								</div>
+								<p class="team-score text-end mb-0" id="${team.team}-score">${team.score}</p>
+							</div>
+						</div>
+					`;
+					cards += card;
+				});
+
+				return cards;
+			}
+
+			function updateScores(scores) {
+				const scoreboardContainer = document.getElementById('scoreboard');
+				const cards = generateCards(scores);
+				scoreboardContainer.innerHTML = cards;
+			}
+
+			function fetchScores() {
+				fetch('/scores')
+					.then(response => response.json())
+					.then(scores => {
+						updateScores(scores);
+					})
+					.catch(error => console.error('Error:', error));
+			}
+
 			const socket = io();
 			socket.on('score-update', scores => {
-				document.getElementById('team1-score').textContent = scores.team1;
-				document.getElementById('team2-score').textContent = scores.team2;
-				document.getElementById('team3-score').textContent = scores.team3;
+				updateScores(scores);
 			});
+
+			window.onload = function () {
+				fetchScores();
+			};
 		</script>
 	</body>
 

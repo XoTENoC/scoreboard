@@ -1,8 +1,9 @@
-// Import the required modules
 const express = require('express');
 const bodyParser = require('body-parser');
 const http = require('http');
 const socketio = require('socket.io');
+const session = require('express-session');
+const cookieParser = require('cookie-parser');
 
 // Create a new Express application
 const app = express();
@@ -13,24 +14,55 @@ const io = socketio(server);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static('public'));
 app.set('view engine', 'ejs');
+app.use(cookieParser());
+
+app.use(session({
+    secret: 'your secret key',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false } // for development purposes, use { secure: true } in production for HTTPS
+}));
 
 // Set up the initial scores
 let scores = {
 	team1: 0,
 	team2: 0,
-	team3: 0
+	team3: 0,
+	team4: 0,
+	team5: 0,
+	team6: 0,
+	team7: 0,
+	team8: 0
 };
 
-// Define the routes
 app.get('/', (req, res) => {
 	// Render the scoreboard page with the current scores
 	res.render('scoreboard', { scores });
 });
 
-app.get('/control', (req, res) => {
-	// Render the control page with buttons to increment the scores
-	res.render('control', { scores });
+app.get('/login', (req, res) => {
+    // Render the login page
+    res.render('login');
 });
+
+app.post('/login', (req, res) => {
+    // Check if the submitted username and password match the ones stored in the app
+    if(req.body.username === 'controlboi' && req.body.password === 'applejuice') {
+        req.session.loggedIn = true;
+        res.redirect('/control');
+    } else {
+        res.redirect('/login');
+    }
+});
+
+app.get('/control', (req, res) => {
+    if(req.session.loggedIn) {
+        res.render('control', { scores });
+    } else {
+        res.redirect('/login');
+    }
+});
+
 
 app.post('/increase-scores', (req, res) => {
 	// Update the scores based on the button that was clicked
@@ -72,6 +104,14 @@ app.post('/reset-scores', (req, res) => {
 
 	// Send a response back to the client to confirm the update
 	res.send('Score updated!');
+});
+
+app.get("/scores", (req, res) => {
+	res.send(scores)
+})
+
+app.get('*', (req, res) => {
+	res.redirect('/login');
 });
 
 // Start the server
