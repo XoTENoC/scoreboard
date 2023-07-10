@@ -118,7 +118,7 @@ app.post('/decrease-scores', (req, res) => {
 });
 
 app.post('/reset-scores', (req, res) => {
-    teams = ['team1', 'team2', 'team3'];
+    teams = ['team1', 'team2', 'team3', 'team4', 'team5', 'team6', 'team7', 'team8'];
 
     for (team in teams) {
         scores[teams[team]] = 0;
