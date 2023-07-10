@@ -8,3 +8,7 @@ body{
 	width: 100%;
 	background-image:radial-gradient(100% 100% at 50% 100%, #f6e05e 0%, rgba(170, 243, 96, 0.75) 25%, rgba(102, 247, 189, 0.5) 50%, rgba(190, 227, 248, 0) 100%), linear-gradient(90deg, #ed8936 0%, #f36a57 14.29%, #ee4d7c 28.57%, #d74193 42.86%, #b8419a 57.14%, #9a409a 71.43%, #553c9a 100%)
 }
+
+.no-double-tap{
+	touch-action: manipulation;
+}
