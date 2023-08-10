@@ -1,6 +1,18 @@
+@font-face {
+	font-family: 'Amador';
+	src: url("/fonts/Amador-W01-Regular.ttf");
+}
+
+@font-face {
+	font-family: 'Cheddar';
+	src: url("/fonts/CheddarGothicRough-Regular.ttf");
+}
+
 body{
 	margin: 0px;
 	padding: 0px;
+	height: 100vh;
+	overflow: hidden;
 }
 
 .header-image{
@@ -11,4 +23,47 @@ body{
 
 .no-double-tap{
 	touch-action: manipulation;
+}
+
+.font-amador{
+	font-family: 'Amador';
+	font-size: 400px;
+	color: #96ff00;
+	-webkit-text-stroke: 5px black;
+	border-radius: 10px;
+}
+
+.text-rotate0{
+	transform: rotate(-3deg);
+}
+
+.text-rotate1{
+	transform: rotate(2deg);
+}
+
+.body-background {
+	/* background-image: url("/imgs/BoysvGirls.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	background-size: cover; */
+	background-image: linear-gradient(45deg, #808080 25%, transparent 25%), linear-gradient(-45deg, #808080 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #808080 75%), linear-gradient(-45deg, transparent 75%, #808080 75%);
+	background-size: 60px 60px;
+	background-position: 0 0, 0 30px, 30px -30px, -30px 0px;
+}
+
+.score-text {
+	font-family: 'Cheddar';
+	font-size: 350px;
+	color: #96ff00;
+	line-height: 0.8;
+}
+
+.background-color-0{
+	background-color: #ec008c;
+	mix-blend-mode: multiply;
+}
+
+.background-color-1{
+	background-color: #00afef;
+	mix-blend-mode: multiply;
 }

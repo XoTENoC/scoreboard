@@ -19,16 +19,16 @@
 		<div class="container mt-4">
 			<label for="SelectPoints" class="form-label">Points increase</label>
 			<select class="form-select w-lg-50 mb-3 js-points" aria-label="SelectPoints">
-				<option value="1">1</option>
+				<option value="1" selected>1</option>
 				<option value="2">2</option>
 				<option value="5">5</option>
 				<option value="10">10</option>
-				<option value="25" selected>25</option>
+				<option value="25">25</option>
 			</select>
 			<div class="d-flex flex-row justify-content-between">
 				<div>
-					<h3>Team 1: <span id="team1-score"><%= scores.team1 %></span></h3>
-					<p>Italy 🇮🇹</p>
+					<h3>GIRLS: <span id="team1-score"><%= scores.team1 %></span></h3>
+					<p>Team 1</p>
 				</div>
 				<div>
 					<button onclick="decreaseScore('team1')" class="btn btn-danger no-double-tap">Decrease</button>
@@ -37,72 +37,12 @@
 			</div>
 			<div class="d-flex flex-row justify-content-between">
 				<div>
-					<h3>Team 2: <span id="team2-score"><%= scores.team2 %></span></h3>
-					<p>New Zealand 🇳🇿</p>
+					<h3>BOYS: <span id="team2-score"><%= scores.team2 %></span></h3>
+					<p>Team 2</p>
 				</div>
 				<div>
 					<button onclick="decreaseScore('team2')" class="btn btn-danger no-double-tap">Decrease</button>
 					<button onclick="updateScore('team2')" class="btn btn-success no-double-tap">Increase</button>
-				</div>
-			</div>
-			<div class="d-flex flex-row justify-content-between">
-				<div>
-					<h3>Team 3: <span id="team3-score"><%= scores.team3 %></span></h3>
-					<p>Argentina 🇦🇷</p>
-				</div>
-				<div>
-					<button onclick="decreaseScore('team3')" class="btn btn-danger no-double-tap">Decrease</button>
-					<button onclick="updateScore('team3')" class="btn btn-success no-double-tap">Increase</button>
-				</div>
-			</div>
-			<div class="d-flex flex-row justify-content-between">
-				<div>
-					<h3>Team 4: <span id="team4-score"><%= scores.team4 %></span></h3>
-					<p>Brazil 🇧🇷</p>
-				</div>
-				<div>
-					<button onclick="decreaseScore('team4')" class="btn btn-danger no-double-tap">Decrease</button>
-					<button onclick="updateScore('team4')" class="btn btn-success no-double-tap">Increase</button>
-				</div>
-			</div>
-			<div class="d-flex flex-row justify-content-between">
-				<div>
-					<h3>Team 5: <span id="team5-score"><%= scores.team5 %></span></h3>
-					<p>Malaysia 🇲🇾</p>
-				</div>
-				<div>
-					<button onclick="decreaseScore('team5')" class="btn btn-danger no-double-tap">Decrease</button>
-					<button onclick="updateScore('team5')" class="btn btn-success no-double-tap">Increase</button>
-				</div>
-			</div>
-			<div class="d-flex flex-row justify-content-between">
-				<div>
-					<h3>Team 6: <span id="team6-score"><%= scores.team6 %></span></h3>
-					<p>India 🇮🇳</p>
-				</div>
-				<div>
-					<button onclick="decreaseScore('team6')" class="btn btn-danger no-double-tap">Decrease</button>
-					<button onclick="updateScore('team6')" class="btn btn-success no-double-tap">Increase</button>
-				</div>
-			</div>
-			<div class="d-flex flex-row justify-content-between">
-				<div>
-					<h3>Team 7: <span id="team7-score"><%= scores.team7 %></span></h3>
-					<p>Japan 🇯🇵</p>
-				</div>
-				<div>
-					<button onclick="decreaseScore('team7')" class="btn btn-danger no-double-tap">Decrease</button>
-					<button onclick="updateScore('team7')" class="btn btn-success no-double-tap">Increase</button>
-				</div>
-			</div>
-			<div class="d-flex flex-row justify-content-between">
-				<div>
-					<h3>Team 8: <span id="team8-score"><%= scores.team8 %></span></h3>
-					<p>South Africa 🇿🇦</p>
-				</div>
-				<div>
-					<button onclick="decreaseScore('team8')" class="btn btn-danger no-double-tap">Decrease</button>
-					<button onclick="updateScore('team8')" class="btn btn-success no-double-tap">Increase</button>
 				</div>
 			</div>
 			<button onclick="resetScore()" class="btn btn-danger no-double-tap mb-3">Reset</button><br>
@@ -115,12 +55,6 @@
 			socket.on('score-update', scores => {
 				document.getElementById('team1-score').textContent = scores.team1;
 				document.getElementById('team2-score').textContent = scores.team2;
-				document.getElementById('team3-score').textContent = scores.team3;
-				document.getElementById('team4-score').textContent = scores.team4;
-				document.getElementById('team5-score').textContent = scores.team5;
-				document.getElementById('team6-score').textContent = scores.team6;
-				document.getElementById('team7-score').textContent = scores.team7;
-				document.getElementById('team8-score').textContent = scores.team8;
 			});
 
 			const pointsEl = document.querySelector(".js-points");

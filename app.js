@@ -27,13 +27,7 @@ app.use(session({
 // Set up the initial scores
 let scores = {
     team1: 0,
-    team2: 0,
-    team3: 0,
-    team4: 0,
-    team5: 0,
-    team6: 0,
-    team7: 0,
-    team8: 0
+    team2: 0
 };
 
 // Load scores from file on server start
@@ -118,7 +112,7 @@ app.post('/decrease-scores', (req, res) => {
 });
 
 app.post('/reset-scores', (req, res) => {
-    teams = ['team1', 'team2', 'team3', 'team4', 'team5', 'team6', 'team7', 'team8'];
+    teams = ['team1', 'team2'];
 
     for (team in teams) {
         scores[teams[team]] = 0;
